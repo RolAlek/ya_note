@@ -23,6 +23,7 @@ from pytest_django.asserts import assertRedirects
 # 5. Страницы регистрации пользователей, входа в учётную запись и выхода из
 # неё доступны всем пользователям.
 
+
 @pytest.mark.parametrize(
     'name',
     ('notes:home', 'users:login', 'users:logout', 'users:signup')
