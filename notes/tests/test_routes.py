@@ -10,6 +10,7 @@ User = get_user_model()
 
 
 class RoutesTest(TestCase):
+    """Тестирование маршрутизации."""
 
     @classmethod
     def setUpTestData(cls) -> None:
