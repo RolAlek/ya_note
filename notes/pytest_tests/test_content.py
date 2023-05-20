@@ -19,7 +19,7 @@ from django.shortcuts import reverse
             (pytest.lazy_fixture('admin_client'), False)
         ),
 )
-def test_note_list_for_different_user(
+def test_note_in_list_for_different_user(
     note, paramitraized_client, note_in_list
 ):
     """

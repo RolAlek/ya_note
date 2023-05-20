@@ -33,7 +33,7 @@ def slug_for_args(note):
 @pytest.fixture
 def form_data():
     return {
-        'titel': 'Новый заголовк',
+        'title': 'Новый заголовк',
         'text': 'Новый текст',
         'slug': 'new-slug'
     }
