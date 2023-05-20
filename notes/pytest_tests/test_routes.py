@@ -4,13 +4,32 @@ import pytest
 from django.shortcuts import reverse
 from pytest_django.asserts import assertRedirects
 
+# План тестирования:
+# 1. Главная страница доступна анонимному пользователю.
+
+# 2. Аутентифицированному пользователю доступна страница со списком заметок
+# notes/, страница успешного добавления заметки done/, страница добавления
+# новой заметки add/.
+
+# 3. Страницы отдельной заметки, удаления и редактирования заметки доступны
+# только автору заметки. Если на эти страницы попытается зайти другой
+# пользователь — вернётся ошибка 404.
+
+# 4. При попытке перейти на страницу списка заметок, страницу успешного
+# добавления записи, страницу добавления заметки, отдельной заметки,
+# редактирования или удаления заметки анонимный пользователь перенаправляется
+# на страницу логина.
+
+# 5. Страницы регистрации пользователей, входа в учётную запись и выхода из
+# неё доступны всем пользователям.
 
 @pytest.mark.parametrize(
     'name',
     ('notes:home', 'users:login', 'users:logout', 'users:signup')
 )
 def test_home_availability_for_anonymous_user(client, name):
-    """Тест доступности домашней страници и страниц управления пользователем.
+    """Тест доступности домашней страници и страниц
+    управления пользователем. (1, 5)
     """
     url = reverse(name)
     response = client.get(url)
@@ -23,7 +42,7 @@ def test_home_availability_for_anonymous_user(client, name):
 )
 def test_pages_availability_for_auth_user(admin_client, name):
     """Тест доступности страниц предназначенных
-    для авторизованного пользователя.
+    для авторизованного пользователя. (2)
     """
     url = reverse(name)
     response = admin_client.get(url)
@@ -48,7 +67,9 @@ def test_pages_availability_for_auth_user(admin_client, name):
 def test_pages_availability_for_different_users(
     parametrized_client, name, args, expected_status
 ):
-    """Тестирование доступности страниц автору."""
+    """Страницы отдельной заметки, удаления и редактирования заметки доступны
+    только автору заметки. (3)
+    """
     url = reverse(name, args=args)
     response = parametrized_client.get(url)
     assert response.status_code == expected_status
@@ -67,7 +88,7 @@ def test_pages_availability_for_different_users(
 )
 def test_redirects(client, name, args):
     """Тестирование перенаправления анонимного пользователя на страницу
-    авторизации.
+    авторизации. (4)
     """
     login_url = reverse('users:login')
     url = reverse(name, args=args)
