@@ -8,17 +8,6 @@ from pytils.translit import slugify
 from notes.models import Note
 from notes.forms import WARNING
 
-# План тестирования:
-# 1. Залогиненный пользователь может создать заметку, а анонимный — не может.
-
-# 2. Невозможно создать две заметки с одинаковым slug.
-
-# 3. Если при создании заметки не заполнен slug, то он формируется
-# автоматически, с помощью функции pytils.translit.slugify.
-
-# 4. Пользователь может редактировать и удалять свои заметки, но не может
-# редактировать или удалять чужие.
-
 
 def test_user_can_create_note(author_client, author, form_data):
     url = reverse('notes:add')
